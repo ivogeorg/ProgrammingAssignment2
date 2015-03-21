@@ -16,7 +16,7 @@
 #  The comments in this file adhere to Google's R Style Guide 
 #  (http://goo.gl/sr34zp).
 
-makeCacheMatrix <- function(x = matrix()) {
+makeCacheMatrix <- function(w = matrix()) {
   # Creates a matrix that caches its inverse in the parent environment.
   #
   # Args:
@@ -38,22 +38,22 @@ makeCacheMatrix <- function(x = matrix()) {
        getinverse=getinverse)
 }
 
-cacheSolve <- function(x, ...) {
+cacheSolve <- function(a, ...) {
   # Computes the inverse of a matrix, with caching.
   #
   # Args:
   #  a: A caching (invertible square) matrix obtained using makeCacheMatrix()
-  #  b: An identity matrix of the same size as `a`.
+  #  b: (Optional) An identity matrix of the same size as `a`. This is the default.
   #
   # Returns:
   #  The inverse of `a`. If already computed, returns it from cache.
   i <- a$getinverse()
   if (!is.null(i)) {
-    message("getting cache inverse")
+    message("cacheSolve: Getting inverse from cache")
     return(i)
   }
   mat <- a$get()
-  inv <- solve(mat, b, ...)
+  inv <- solve(mat, ...)
   a$setinverse(inv)
   inv
 }
